@@ -1,4 +1,4 @@
-package tmplpkg
+package tmplify
 
 import (
 	"strings"
