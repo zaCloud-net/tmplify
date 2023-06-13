@@ -17,3 +17,33 @@ To use tmplify in your Go project, you need to have Go installed and set up. The
 ```shell
 go get github.com/Soul-Remix/tmplify
 ```
+
+## Usage
+
+```go
+import "github.com/Soul-Remix/tmplify"
+```
+
+## Template a string
+
+```go
+template := "Hello, {{ .name }}!"
+data := map[string]interface{}{
+    "name": "John",
+}
+
+result, err := tmplify.TemplateString(template, data)
+if err != nil {
+    // Handle error
+}
+
+fmt.Println(result) // Output: Hello, John!
+```
+
+## Contributing
+
+Contributions to GoTmplify are welcome! If you find any issues or have ideas for improvements, please open an issue or submit a pull request on GitHub. Make sure to follow the project's code of conduct.
+
+## License
+
+tmplify is licensed under the [MIT License](https://github.com/Soul-Remix/tmplify/blob/main/LICENSE).
