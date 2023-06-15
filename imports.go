@@ -51,19 +51,6 @@ func resolveImportPath(importPath string) (string, error) {
 	return absPath, nil
 }
 
-func removeEmptyLines(input string) string {
-	lines := strings.Split(input, "\n")
-	var result []string
-
-	for _, line := range lines {
-		if strings.TrimSpace(line) != "" {
-			result = append(result, line)
-		}
-	}
-
-	return strings.Join(result, "\n")
-}
-
 func handleImports(template string, data map[string]interface{}) (string, map[string]interface{}, error) {
 	imports := findImportStatements(template)
 	for _, importStmt := range imports {
@@ -76,7 +63,6 @@ func handleImports(template string, data map[string]interface{}) (string, map[st
 	}
 
 	template = removeImportLines(template)
-	template = removeEmptyLines(template)
 
 	return template, data, nil
 }

@@ -27,10 +27,10 @@ func getHelpers(t *template.Template) template.FuncMap {
 		"divide": func(a, b int) int {
 			return a / b
 		},
-		"uppercase": func(s string) string {
+		"upper": func(s string) string {
 			return strings.ToUpper(s)
 		},
-		"lowercase": func(s string) string {
+		"lower": func(s string) string {
 			return strings.ToLower(s)
 		},
 		"lessThan": func(a, b interface{}) bool {
@@ -110,4 +110,17 @@ func include(name string) (string, error) {
 		return "", err
 	}
 	return buf.String(), nil
+}
+
+func removeEmptyLines(input string) string {
+	lines := strings.Split(input, "\n")
+	var result []string
+
+	for _, line := range lines {
+		if strings.TrimSpace(line) != "" {
+			result = append(result, line)
+		}
+	}
+
+	return strings.Join(result, "\n")
 }
