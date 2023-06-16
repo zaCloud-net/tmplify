@@ -13,7 +13,7 @@ func TemplateString(templateString string, values map[string]interface{}) (strin
 		return "", err
 	}
 
-	tmpl, err := t.Funcs(getHelpers(t)).Parse(tmplString)
+	tmpl, err := t.Funcs(getHelpers(t, values)).Parse(tmplString)
 	if err != nil {
 		return "", err
 	}

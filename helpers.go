@@ -6,7 +6,7 @@ import (
 	"text/template"
 )
 
-func getHelpers(t *template.Template) template.FuncMap {
+func getHelpers(t *template.Template, data interface{}) template.FuncMap {
 	return template.FuncMap{
 		"equal": func(a, b interface{}) bool {
 			return a == b
@@ -68,11 +68,14 @@ func getHelpers(t *template.Template) template.FuncMap {
 			return indent(spaces, v)
 		},
 		"include": func(name string) (string, error) {
-			return include(name)
+			return include(name, data)
 		},
 		"includeI": func(name string, spaces int) (string, error) {
-			str, err := include(name)
+			str, err := include(name, data)
 			return indent(spaces, str), err
+		},
+		"includeV": func(name string, data interface{}) (string, error) {
+			return include(name, data)
 		},
 	}
 }
@@ -98,13 +101,13 @@ func handleIncludeName(name string) (string, string) {
 	}
 }
 
-func include(name string) (string, error) {
+func include(name string, data interface{}) (string, error) {
 	buf := bytes.NewBuffer(nil)
 	name, path := handleIncludeName(name)
 	if path != "" {
 		t.ParseFiles(path)
 	}
-	if err := t.ExecuteTemplate(buf, name, nil); err != nil {
+	if err := t.ExecuteTemplate(buf, name, data); err != nil {
 		return "", err
 	}
 	return buf.String(), nil
