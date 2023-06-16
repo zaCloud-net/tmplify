@@ -2,7 +2,6 @@ package tmplify
 
 import (
 	"bytes"
-	"fmt"
 	"strings"
 	"text/template"
 )
@@ -95,7 +94,6 @@ func handleIncludeName(name string) (string, string) {
 		return name, ""
 	} else {
 		path, _ := resolveImportPath(name)
-		fmt.Println(path)
 		return arr[len(arr)-1], path
 	}
 }
