@@ -1,10 +1,12 @@
 package tmplify
 
 import (
+	"bytes"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"text/template"
 )
 
 func findImportStatements(template string) []string {
@@ -51,18 +53,29 @@ func resolveImportPath(importPath string) (string, error) {
 	return absPath, nil
 }
 
-func handleImports(template string, data map[string]interface{}) (string, map[string]interface{}, error) {
-	imports := findImportStatements(template)
+func handleImports(templateString string, data map[string]interface{}) (string, map[string]interface{}, error) {
+	imports := findImportStatements(templateString)
 	for _, importStmt := range imports {
 		moduleName, importPath := extractImportPath(importStmt)
 		importedData, err := importFile(importPath)
 		if err != nil {
 			return "", data, err
 		}
-		data[moduleName] = importedData
+		var t = template.New(moduleName)
+		t, err = t.Funcs(getHelpers(t, data)).Parse(importedData)
+		if err != nil {
+			return "", data, err
+		}
+		buffer := bytes.NewBuffer(nil)
+
+		err = t.Execute(buffer, data)
+		if err != nil {
+			return "", data, err
+		}
+		data[moduleName] = buffer.String()
 	}
 
-	template = removeImportLines(template)
+	templateString = removeImportLines(templateString)
 
-	return template, data, nil
+	return templateString, data, nil
 }
