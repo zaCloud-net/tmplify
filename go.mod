@@ -1,3 +1,3 @@
-module github.com/Soul-Remix/tmplify
+module github.com/zaCloud-net/tmplify
 
 go 1.19
