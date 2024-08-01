@@ -6,7 +6,7 @@ import (
 	"text/template"
 )
 
-func getHelpers(t *template.Template, data interface{}) template.FuncMap {
+func getHelpers(data interface{}) template.FuncMap {
 	return template.FuncMap{
 		"equal": func(a, b interface{}) bool {
 			return a == b
@@ -76,6 +76,14 @@ func getHelpers(t *template.Template, data interface{}) template.FuncMap {
 		},
 		"includeV": func(name string, data interface{}) (string, error) {
 			return include(name, data)
+		},
+		"Iterate": func(count *uint) []uint {
+			var i uint
+			var Items []uint
+			for i = 0; i < (*count); i++ {
+				Items = append(Items, i)
+			}
+			return Items
 		},
 	}
 }

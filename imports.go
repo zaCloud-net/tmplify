@@ -62,7 +62,7 @@ func handleImports(templateString string, data map[string]interface{}) (string, 
 			return "", data, err
 		}
 		var t = template.New(moduleName)
-		t, err = t.Funcs(getHelpers(t, data)).Parse(importedData)
+		t, err = t.Funcs(getHelpers(data)).Parse(importedData)
 		if err != nil {
 			return "", data, err
 		}
