@@ -77,10 +77,10 @@ func getHelpers(data interface{}) template.FuncMap {
 		"includeV": func(name string, data interface{}) (string, error) {
 			return include(name, data)
 		},
-		"Iterate": func(count *uint) []uint {
-			var i uint
-			var Items []uint
-			for i = 0; i < (*count); i++ {
+		"Iterate": func(count int) []int {
+			var i int
+			var Items []int
+			for i = 0; i < count; i++ {
 				Items = append(Items, i)
 			}
 			return Items
